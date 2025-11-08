@@ -8,10 +8,7 @@ Official landing page for the Aethyrion ecosystem of free, open-source developer
 
 ## 🚀 Quick Start
 
-1. Open `index.html` in a browser, or
-2. Deploy to any static hosting (Vercel, Netlify, GitHub Pages, Cloudflare Pages)
-
-That's it! No build step required.
+1. Open `index.html` in a browser
 
 ---
 
