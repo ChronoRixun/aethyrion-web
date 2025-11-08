@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observatory - Self-Hosted Observability | Aethyrion</title>
+    <meta name="description" content="Free self-hosted observability platform. Alternative to Datadog ($69-99/host/mo) and New Relic. APM, logs, metrics, traces, and AI-powered insights.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(251, 146, 60, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(251, 146, 60, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #fb923c 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #f59e0b 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            animation-delay: 5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #94a3b8;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            color: #fff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .hero {
+            padding: 6rem 0 4rem;
+            text-align: center;
+        }
+
+        .tool-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 30px #fb923c);
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            background: rgba(251, 146, 60, 0.2);
+            color: #fb923c;
+            border: 1px solid rgba(251, 146, 60, 0.3);
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #fb923c 0%, #f59e0b 100%);
+            color: #fff;
+            box-shadow: 0 10px 40px rgba(251, 146, 60, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(251, 146, 60, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .comparison {
+            background: rgba(251, 146, 60, 0.05);
+            border: 1px solid rgba(251, 146, 60, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .comparison-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #fb923c;
+        }
+
+        .comparison-item p {
+            color: #94a3b8;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #ef4444;
+            margin-right: 1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(251, 146, 60, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(251, 146, 60, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #fff;
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            color: #fb923c;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .architecture {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(251, 146, 60, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(251, 146, 60, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
+            border-radius: 24px;
+            margin: 4rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        footer {
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: #64748b;
+        }
+
+        footer a {
+            color: #fb923c;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #f59e0b;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="container">
+        <nav>
+            <a href="../index.html" class="logo">← AETHYRION</a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#setup">Setup</a>
+                <a href="https://github.com" target="_blank">GitHub</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="tool-icon">📊</div>
+            <h1>Observatory</h1>
+            <span class="status-badge">🚧 IN DEVELOPMENT</span>
+            <p>
+                Self-hosted observability platform for logs, metrics, and traces with AI-powered insights. 
+                Free alternative to Datadog ($69-99/host/month) and New Relic. Run on your infrastructure, 
+                keep your data private, pay nothing.
+            </p>
+            <div class="hero-buttons">
+                <a href="#setup" class="btn btn-primary">Coming Q1 2025 →</a>
+                <a href="https://github.com" class="btn btn-secondary">Star on GitHub</a>
+            </div>
+        </section>
+
+        <section id="pricing" class="comparison">
+            <h2 class="section-title">Stop Paying Per Host</h2>
+            <div class="comparison-grid">
+                <div class="comparison-item">
+                    <h4>Datadog</h4>
+                    <p class="price"><span class="old-price">$69-99/host</span>$0</p>
+                    <p>Pay per host, per month. Costs explode as you scale.</p>
+                </div>
+                <div class="comparison-item">
+                    <h4>New Relic</h4>
+                    <p class="price"><span class="old-price">$99-349/user</span>$0</p>
+                    <p>Complex pricing, data retention charges, user limits.</p>
+                </div>
+                <div class="comparison-item">
+                    <h4>Observatory</h4>
+                    <p class="price">$0/month</p>
+                    <p><strong>Unlimited hosts, unlimited data.</strong> Self-hosted = no recurring costs.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section">
+            <h2 class="section-title">Enterprise Observability, Zero Cost</h2>
+            <p class="section-subtitle">Everything you need to monitor your applications and infrastructure</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Real-Time Logs</h3>
+                    <p>Stream logs in real-time with powerful filtering and search. Full-text search across all your log data with instant results.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Time-Series Metrics</h3>
+                    <p>Collect and visualize metrics from all your services. Custom dashboards with beautiful charts powered by TimescaleDB.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Distributed Tracing</h3>
+                    <p>Follow requests across microservices with waterfall diagrams. Find bottlenecks and optimize performance.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Service Monitoring</h3>
+                    <p>Automatic service discovery and health monitoring. Track uptime, response times, and error rates for all services.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Error Analysis</h3>
+                    <p>AI explains errors and suggests fixes automatically. Get root cause analysis in natural language.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3>Smart Summaries</h3>
+                    <p>AI-powered log summarization. Ask "What happened today?" and get intelligent summaries of your system activity.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🗣️</div>
+                    <h3>Natural Language Queries</h3>
+                    <p>Ask questions in plain English: "Show me slow endpoints", "What's causing errors in auth service?"</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🚨</div>
+                    <h3>Anomaly Detection</h3>
+                    <p>AI automatically detects unusual patterns in your metrics and logs. Get alerts before problems become incidents.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔌</div>
+                    <h3>OpenTelemetry Native</h3>
+                    <p>Works with any OpenTelemetry-instrumented app. Zero vendor lock-in. Switch from Datadog in minutes.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Beautiful Dashboards</h3>
+                    <p>Create stunning real-time dashboards with custom widgets. Share with your team or embed anywhere.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>WebSocket Real-Time</h3>
+                    <p>Watch logs stream in real-time. No polling, no delays. See what's happening right now.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Self-Hosted Privacy</h3>
+                    <p>Your data never leaves your infrastructure. Perfect for compliance requirements and sensitive data.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="setup" class="section">
+            <h2 class="section-title">Get Started in 5 Minutes</h2>
+            <p class="section-subtitle">Deploy with Docker or install locally</p>
+
+            <div class="code-block">
+                <code>
+# Option 1: Docker Compose (Easiest)<br>
+git clone https://github.com/aethyrion/observatory.git<br>
+cd observatory<br>
+docker-compose up -d<br>
+<br>
+# Observatory is now running!<br>
+# API: http://localhost:3101<br>
+# OTLP Collector: http://localhost:3102<br>
+<br>
+# Option 2: Local Development<br>
+npm install<br>
+npm run setup<br>
+npm run dev
+                </code>
+            </div>
+
+            <h3 class="section-title" style="margin-top: 3rem;">Instrument Your Apps</h3>
+            <p class="section-subtitle">Works with any OpenTelemetry-compatible instrumentation</p>
+
+            <div class="code-block">
+                <code>
+// Node.js / Next.js<br>
+npm install @opentelemetry/sdk-node @opentelemetry/auto-instrumentations-node<br>
+<br>
+import { NodeSDK } from '@opentelemetry/sdk-node';<br>
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';<br>
+<br>
+const sdk = new NodeSDK({<br>
+&nbsp;&nbsp;serviceName: 'your-app',<br>
+&nbsp;&nbsp;traceExporter: new OTLPTraceExporter({<br>
+&nbsp;&nbsp;&nbsp;&nbsp;url: 'http://localhost:3102/v1/traces'<br>
+&nbsp;&nbsp;})<br>
+});<br>
+<br>
+sdk.start(); // That's it!
+                </code>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">AI-Powered Intelligence</h2>
+            <p class="section-subtitle">Multiple free AI providers with 30,000+ requests/day</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Groq (14,400/day)</h3>
+                    <p>Ultra-fast error analysis at 560 tokens/sec. Best for real-time debugging.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Gemini (1,500/day)</h3>
+                    <p>1M token context. Perfect for analyzing large log files and traces.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Cerebras (14,400/day)</h3>
+                    <p>Fastest inference for anomaly detection and pattern recognition.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Ollama (Unlimited)</h3>
+                    <p>Run Llama 3.2 locally. 100% private, works offline, zero cost.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="architecture">
+            <h2 class="section-title">Architecture</h2>
+            <div class="code-block">
+                <code>
+Your Apps (OpenTelemetry)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+Observatory Collector (port 3102)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+PostgreSQL + TimescaleDB<br>
+&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+Observatory API (port 3101) + AI Service<br>
+&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+React Frontend + WebSocket
+                </code>
+            </div>
+            <p style="color: #94a3b8; text-align: center; margin-top: 2rem;">
+                Simple, scalable, and fully open-source. No proprietary dependencies.
+            </p>
+        </div>
+
+        <div class="cta-section">
+            <h2>Stop Paying for Observability</h2>
+            <p>Observatory launches Q1 2025. Star the repo to stay updated.</p>
+            <div class="hero-buttons">
+                <a href="https://github.com" class="btn btn-primary">Star on GitHub ⭐</a>
+                <a href="../index.html" class="btn btn-secondary">Back to Aethyrion</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>
+                <a href="../index.html">← Back to Aethyrion</a> • 
+                <a href="https://github.com">GitHub</a> • 
+                <a href="#">Docs</a> • 
+                <a href="#">Discord</a>
+            </p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">
+                Observatory by Aethyrion © 2025 • MIT License
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

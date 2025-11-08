@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helix - Free AI Component Generator | Aethyrion</title>
+    <meta name="description" content="Free alternative to v0.dev and Magic Patterns. Generate React components from text or screenshots with AI. 100% free forever.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            animation-delay: 5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #94a3b8;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            color: #fff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .hero {
+            padding: 6rem 0 4rem;
+            text-align: center;
+        }
+
+        .tool-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 30px #3b82f6);
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+            color: #fff;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #fff;
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        .comparison {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .comparison-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #3b82f6;
+        }
+
+        .comparison-item p {
+            color: #94a3b8;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #ef4444;
+            margin-right: 1rem;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            color: #06b6d4;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .tech-badge {
+            padding: 0.5rem 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            color: #3b82f6;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+            border-radius: 24px;
+            margin: 4rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        footer {
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: #64748b;
+        }
+
+        footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #06b6d4;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="container">
+        <nav>
+            <a href="../index.html" class="logo">← AETHYRION</a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#getting-started">Get Started</a>
+                <a href="#pricing">Pricing</a>
+                <a href="https://github.com" target="_blank">GitHub</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="tool-icon">🌀</div>
+            <h1>Helix</h1>
+            <span class="status-badge">✓ LIVE NOW</span>
+            <p>
+                Free alternative to v0.dev and Magic Patterns. Generate React components from text prompts or screenshots. 
+                Upload up to 10 images with Glimpse vision, use 10+ AI providers, and get instant previews. 
+                <strong>100% free forever.</strong>
+            </p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary">Try Helix Now →</a>
+                <a href="https://github.com" class="btn btn-secondary">View on GitHub</a>
+            </div>
+        </section>
+
+        <section id="pricing" class="comparison">
+            <h2 class="section-title">Why Pay $20-49/month?</h2>
+            <div class="comparison-grid">
+                <div class="comparison-item">
+                    <h4>v0.dev</h4>
+                    <p class="price"><span class="old-price">$20/mo</span>FREE</p>
+                    <p>Limited to 5 generations/day on free tier</p>
+                </div>
+                <div class="comparison-item">
+                    <h4>Magic Patterns</h4>
+                    <p class="price"><span class="old-price">$49/mo</span>FREE</p>
+                    <p>Only 10 generations on free plan</p>
+                </div>
+                <div class="comparison-item">
+                    <h4>Helix</h4>
+                    <p class="price">$0/mo</p>
+                    <p><strong>21,000+ free requests/day</strong> across 10+ AI providers. Unlimited generations.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section">
+            <h2 class="section-title">Powerful Features</h2>
+            <p class="section-subtitle">Everything you need to generate beautiful React components with AI</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Text-to-Component</h3>
+                    <p>Describe what you want in natural language and watch Helix generate production-ready React components instantly.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📸</div>
+                    <h3>Screenshot-to-Code</h3>
+                    <p>Upload up to 10 images of designs, mockups, or existing UIs. Helix analyzes them with Glimpse vision and generates matching code.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Preview</h3>
+                    <p>See your components come to life instantly in the built-in preview panel. No need to copy-paste into another environment.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>AI Error Fixing</h3>
+                    <p>Component not working? Click one button and AI automatically analyzes and fixes errors in your generated code.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>10+ AI Providers</h3>
+                    <p>Choose from Groq, Gemini, Cerebras, Claude, OpenAI, DeepSeek, and more. Each with generous free tiers totaling 21,000+ requests/day.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3>Local AI Support</h3>
+                    <p>Run 100% offline with Ollama or LM Studio. Your code never leaves your machine. Perfect for sensitive projects.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>One-Click Export</h3>
+                    <p>Copy generated components directly to your clipboard or download as files. Ready to drop into your Next.js or React project.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Tailwind CSS</h3>
+                    <p>All components use Tailwind CSS for styling. Beautiful, responsive, and fully customizable out of the box.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Encrypted API Keys</h3>
+                    <p>Your API keys are encrypted locally using AES-GCM. They never leave your device unencrypted. Open source and auditable.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="getting-started" class="section">
+            <h2 class="section-title">Get Started in 60 Seconds</h2>
+            <p class="section-subtitle">No installation required. Just visit the app and start generating.</p>
+
+            <div class="code-block">
+                <code>
+1. Visit helix.aethyrion.org (or download desktop app)<br>
+2. Choose an AI provider (Groq recommended - 14,400 free/day)<br>
+3. Add your free API key (get one at console.groq.com)<br>
+4. Describe your component: "Create a pricing card with three tiers"<br>
+5. Click Generate → Watch your component appear!<br>
+                </code>
+            </div>
+
+            <div class="tech-stack">
+                <span class="tech-badge">React</span>
+                <span class="tech-badge">TypeScript</span>
+                <span class="tech-badge">Tailwind CSS</span>
+                <span class="tech-badge">Next.js</span>
+                <span class="tech-badge">Electron</span>
+                <span class="tech-badge">Groq</span>
+                <span class="tech-badge">Gemini</span>
+                <span class="tech-badge">Claude</span>
+                <span class="tech-badge">Ollama</span>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Free AI Providers</h2>
+            <p class="section-subtitle">21,000+ free requests per day across all providers</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Groq</h3>
+                    <p><strong>14,400 req/day free</strong></p>
+                    <p>Ultra-fast inference at 560 tokens/sec. Best for rapid prototyping.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Gemini</h3>
+                    <p><strong>1,500 req/day free</strong></p>
+                    <p>1M token context window. Perfect for analyzing large screenshots.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Cerebras</h3>
+                    <p><strong>14,400 req/day free</strong></p>
+                    <p>Fastest inference available. Ideal for quick iterations.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Ollama</h3>
+                    <p><strong>Unlimited & Local</strong></p>
+                    <p>Run models like Llama 3.2 locally. 100% free, 100% private.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="cta-section">
+            <h2>Start Building for Free</h2>
+            <p>Join developers who've generated thousands of components with Helix. No credit card. No limits.</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary">Launch Helix →</a>
+                <a href="https://github.com" class="btn btn-secondary">Star on GitHub ⭐</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>
+                <a href="../index.html">← Back to Aethyrion</a> • 
+                <a href="https://github.com">GitHub</a> • 
+                <a href="#">Docs</a> • 
+                <a href="#">Discord</a>
+            </p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">
+                Helix by Aethyrion © 2025 • MIT License
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

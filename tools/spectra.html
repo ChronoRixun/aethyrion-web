@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spectra - AI Code Review | Aethyrion</title>
+    <meta name="description" content="Free alternative to CodeRabbit & Codacy. AI-powered code review agent. Catch bugs, security issues, and code smells. 100% local-first.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(236, 72, 153, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(236, 72, 153, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #ec4899 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            animation-delay: 5s;
+        }
+
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
+            top: 50%;
+            left: 30%;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #94a3b8;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            color: #fff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .hero {
+            padding: 6rem 0 4rem;
+            text-align: center;
+        }
+
+        .tool-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 30px #ec4899);
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+            color: #ec4899;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
+            color: #fff;
+            box-shadow: 0 10px 40px rgba(236, 72, 153, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(236, 72, 153, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .comparison {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border: 1px solid rgba(236, 72, 153, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .comparison-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .comparison-item p {
+            color: #94a3b8;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #ef4444;
+            margin-right: 1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(236, 72, 153, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #fff;
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .tech-badge {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            border-radius: 8px;
+            color: #ec4899;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(59, 130, 246, 0.1) 100%);
+            border-radius: 24px;
+            margin: 4rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        footer {
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: #64748b;
+        }
+
+        footer a {
+            color: #ec4899;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #8b5cf6;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="container">
+        <nav>
+            <a href="../index.html" class="logo">← AETHYRION</a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#download">Download</a>
+                <a href="https://github.com" target="_blank">GitHub</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="tool-icon">🌈</div>
+            <h1>Spectra</h1>
+            <span class="status-badge">🚧 IN DEVELOPMENT</span>
+            <p>
+                AI-powered code review agent. Free alternative to CodeRabbit ($12-50/user/month) and Codacy ($15/user/month). 
+                Catch bugs, security vulnerabilities, performance issues, and code smells before they reach production. 
+                <strong>100% local-first</strong> — your code never leaves your machine.
+            </p>
+            <div class="hero-buttons">
+                <a href="#download" class="btn btn-primary">Coming Q1 2025 →</a>
+                <a href="https://github.com" class="btn btn-secondary">Star on GitHub</a>
+            </div>
+        </section>
+
+        <section id="pricing" class="comparison">
+            <h2 class="section-title">Stop Paying Per User</h2>
+            <div class="comparison-grid">
+                <div class="comparison-item">
+                    <h4>CodeRabbit</h4>
+                    <p class="price"><span class="old-price">$12-50/user</span>$0</p>
+                    <p>Cloud-based, sends your code to third parties.</p>
+                </div>
+                <div class="comparison-item">
+                    <h4>Codacy</h4>
+                    <p class="price"><span class="old-price">$15/user</span>$0</p>
+                    <p>Limited languages, expensive at scale.</p>
+                </div>
+                <div class="comparison-item">
+                    <h4>Spectra</h4>
+                    <p class="price">$0/month</p>
+                    <p><strong>Unlimited users. 100% local.</strong> Your code stays on your machine.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section">
+            <h2 class="section-title">AI-Powered Code Review</h2>
+            <p class="section-subtitle">Catch issues before they become problems</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🐛</div>
+                    <h3>Bug Detection</h3>
+                    <p>AI scans your code for potential bugs, logic errors, and edge cases you might have missed.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Security Analysis</h3>
+                    <p>Detect SQL injection, XSS, CSRF, and other security vulnerabilities before deployment.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Performance Review</h3>
+                    <p>Find performance bottlenecks, inefficient algorithms, and N+1 queries automatically.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🧼</div>
+                    <h3>Code Smell Detection</h3>
+                    <p>Identify code smells, anti-patterns, and opportunities for refactoring.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📏</div>
+                    <h3>Best Practices</h3>
+                    <p>Get suggestions for industry best practices and language-specific conventions.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Git Integration</h3>
+                    <p>Review commits, analyze diffs, and check pull requests directly from Spectra.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Detailed Reports</h3>
+                    <p>Export comprehensive code review reports. Share with your team or use for documentation.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>Custom Rules</h3>
+                    <p>Define your own review rules and patterns. Enforce team-specific coding standards.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Multi-Language</h3>
+                    <p>Support for JavaScript, TypeScript, Python, Java, Go, Rust, and more.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🖥️</div>
+                    <h3>Desktop App</h3>
+                    <p>Electron-based desktop application. Works completely offline with local AI models.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Multi-Provider AI</h3>
+                    <p>Choose from Groq, Gemini, Claude, OpenAI, or use Ollama/LM Studio for 100% local review.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Encrypted Storage</h3>
+                    <p>API keys encrypted with AES-GCM. Proven encryption system ported from Helix.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Built on Helix Foundation</h2>
+            <p class="section-subtitle">Battle-tested infrastructure from day one</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>✅ Proven Encryption</h3>
+                    <p>Same secure API key storage system used in Helix. Web Crypto API with device fingerprinting.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>✅ Multi-Provider Ready</h3>
+                    <p>Inherits Helix's AI provider infrastructure. Switch between Groq, Gemini, Claude, and local models.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>✅ Beautiful UI</h3>
+                    <p>Spectra-branded dark theme with rainbow gradient accents. Modern React + TypeScript + Tailwind.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>✅ Desktop-First</h3>
+                    <p>Electron app with local Git integration. Your code never needs to leave your machine.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="download" class="section">
+            <h2 class="section-title">Get Spectra</h2>
+            <p class="section-subtitle">Available for Windows, macOS, and Linux</p>
+
+            <div class="code-block">
+                <code>
+# Clone the repository<br>
+git clone https://github.com/aethyrion/spectra.git<br>
+cd spectra<br>
+<br>
+# Install dependencies<br>
+npm install<br>
+<br>
+# Run in development mode<br>
+npm run electron:dev<br>
+<br>
+# Build for production<br>
+npm run electron:build
+                </code>
+            </div>
+
+            <div class="tech-stack">
+                <span class="tech-badge">React 18</span>
+                <span class="tech-badge">TypeScript</span>
+                <span class="tech-badge">Electron 25</span>
+                <span class="tech-badge">Tailwind CSS</span>
+                <span class="tech-badge">Zustand</span>
+                <span class="tech-badge">simple-git</span>
+                <span class="tech-badge">Multi-AI</span>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Roadmap</h2>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Phase 1: Foundation ✅</h3>
+                    <p>Project scaffolding, Helix encryption ported, provider/model selection, settings, UI foundation.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Phase 2: Core 🔄</h3>
+                    <p>File analysis, Git integration, basic review prompts, security checks, performance analysis.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Phase 3: Advanced</h3>
+                    <p>API key management UI, dynamic model fetching, custom rules, report generation, CLI tool.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Phase 4: Launch</h3>
+                    <p>GitHub Actions integration, PR auto-review, docs, tutorials, marketing site.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Why Local-First?</h2>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>🔒 Privacy</h3>
+                    <p>Your proprietary code never leaves your machine. No cloud services, no data collection.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>💰 Cost</h3>
+                    <p>No per-user pricing. Free forever. Run on your hardware with optional cloud AI.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>⚡ Speed</h3>
+                    <p>Review code instantly without network latency. Works offline with local models.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>✅ Compliance</h3>
+                    <p>Perfect for regulated industries. No third-party data sharing, no compliance headaches.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="cta-section">
+            <h2>Ship Better Code</h2>
+            <p>Spectra launches Q1 2025. Star the repo to follow development progress.</p>
+            <div class="hero-buttons">
+                <a href="https://github.com" class="btn btn-primary">Star on GitHub ⭐</a>
+                <a href="../index.html" class="btn btn-secondary">Back to Aethyrion</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>
+                <a href="../index.html">← Back to Aethyrion</a> • 
+                <a href="https://github.com">GitHub</a> • 
+                <a href="#">Docs</a> • 
+                <a href="#">Discord</a>
+            </p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">
+                Spectra by Aethyrion © 2025 • MIT License
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
