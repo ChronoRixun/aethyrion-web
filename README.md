@@ -17,7 +17,7 @@ That's it! No build step required.
 
 ## 🌟 Featured Tools
 
-### [Helix](https://github.com/yourusername/helix) - Live ✅
+### [Helix](https://github.com/yourusername/helix) - Live (Rollout this weekend for 1.0) 
 Free alternative to v0.dev and Magic Patterns. Generate React components from text or screenshots.
 
 ### [Prism](https://github.com/yourusername/prism) - Beta 🔶
