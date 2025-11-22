@@ -249,7 +249,18 @@
             color: #ec4899;
             border: 1px solid rgba(236, 72, 153, 0.4);
             font-weight: 600;
-            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .nova-status-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            font-weight: 600;
             text-align: center;
         }
 
@@ -391,6 +402,14 @@
             background: linear-gradient(90deg, #8b5cf6, #a855f7);
         }
 
+        .tool-card.upl::before {
+            background: linear-gradient(90deg, #f59e0b, #eab308);
+        }
+
+        .tool-card.forge::before {
+            background: linear-gradient(90deg, #10b981, #14b8a6);
+        }
+
         .tool-card:hover::before {
             transform: scaleX(1);
         }
@@ -407,6 +426,16 @@
         .tool-card.prism:hover {
             border-color: rgba(139, 92, 246, 0.3);
             box-shadow: 0 20px 60px rgba(139, 92, 246, 0.15);
+        }
+
+        .tool-card.upl:hover {
+            border-color: rgba(245, 158, 11, 0.3);
+            box-shadow: 0 20px 60px rgba(245, 158, 11, 0.15);
+        }
+
+        .tool-card.forge:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 20px 60px rgba(16, 185, 129, 0.15);
         }
 
         .tool-icon {
@@ -443,6 +472,18 @@
             background: rgba(139, 92, 246, 0.2);
             color: #8b5cf6;
             border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .status-infra {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .status-soon {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
         .tool-card p {
@@ -643,7 +684,10 @@
             <div class="nova-spotlight">
                 <div class="nova-content">
                     <div class="nova-header" style="flex-direction: column; align-items: center; text-align: center;">
-                        <div class="flagship-badge">★ FLAGSHIP TOOL</div>
+                        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem;">
+                            <div class="flagship-badge">★ FLAGSHIP TOOL</div>
+                            <div class="nova-status-badge">⚡ ALPHA COMING SOON</div>
+                        </div>
                         <div class="nova-title-group">
                             <h2>Nova</h2>
                             <p class="nova-tagline">Your AI Coding Partner - Hundreds of Models, Zero Limits</p>
@@ -728,6 +772,44 @@
                     </ul>
                     <a href="tools/prism.html" class="btn btn-secondary" style="width: 100%; justify-content: center;">Learn More →</a>
                 </div>
+
+                <!-- UPL -->
+                <div class="tool-card upl">
+                    <div class="tool-icon">🌐</div>
+                    <h3>UPL</h3>
+                    <span class="tool-status status-infra">🏗️ INFRASTRUCTURE</span>
+                    <p>
+                        Universal Provider Layer - the foundation powering the entire Aethyrion ecosystem. 
+                        Switch between 228+ AI models across 12 providers with one API. Zero vendor lock-in, 81% cost savings.
+                    </p>
+                    <ul class="tool-features">
+                        <li>228+ models across 12 providers</li>
+                        <li>81% cost reduction with prompt caching</li>
+                        <li>Dynamic model auto-discovery</li>
+                        <li>Extended reasoning support (Claude 4.x)</li>
+                        <li>1M token context (Moonshot K2)</li>
+                    </ul>
+                    <a href="https://github.com/AethyrionAI/UPL-v1.2" class="btn btn-secondary" style="width: 100%; justify-content: center;" target="_blank">View on GitHub →</a>
+                </div>
+
+                <!-- Forge -->
+                <div class="tool-card forge">
+                    <div class="tool-icon">🎮</div>
+                    <h3>Forge</h3>
+                    <span class="tool-status status-soon">🚧 COMING SOON</span>
+                    <p>
+                        AI-powered game development assistant. Build games faster, smarter, better. 
+                        Something special is brewing...
+                    </p>
+                    <ul class="tool-features">
+                        <li>Powered by Nova + UPL</li>
+                        <li>Multi-engine support</li>
+                        <li>Natural language game logic</li>
+                        <li>??? (More details coming)</li>
+                        <li>??? (Stay tuned)</li>
+                    </ul>
+                    <div class="btn btn-secondary" style="width: 100%; justify-content: center; opacity: 0.5; cursor: not-allowed;">Coming Q2 2026</div>
+                </div>
             </div>
         </section>
 
@@ -738,8 +820,8 @@
                     <div class="stat-label">Free Forever</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value">3</div>
-                    <div class="stat-label">Tools & Growing</div>
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Projects</div>
                 </div>
                 <div class="stat">
                     <div class="stat-value">228+</div>
