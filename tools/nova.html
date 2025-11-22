@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova - Your AI Coding Partner | Aethyrion</title>
+    <meta name="description" content="Production-ready AI coding assistant with 228+ models, autonomous agent mode, and 81% cost savings. Free alternative to Cursor, Aider, and GitHub Copilot.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+            animation: float 25s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #ec4899 0%, transparent 70%);
+            top: -250px;
+            right: -250px;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
+            bottom: -200px;
+            left: -200px;
+            animation-delay: 10s;
+        }
+
+        .orb-3 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            animation-delay: 20s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, -40px) scale(1.15); }
+            66% { transform: translate(-30px, 30px) scale(0.85); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .back-link {
+            padding: 2rem 0 1rem;
+        }
+
+        .back-link a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-link a:hover {
+            color: #fff;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 3rem 0 4rem;
+        }
+
+        .hero-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-icon {
+            font-size: 5rem;
+            filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.5));
+        }
+
+        .hero-title h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+
+        .status-badge {
+            display: inline-block;
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            max-width: 900px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
+            color: #fff;
+            box-shadow: 0 10px 40px rgba(236, 72, 153, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(236, 72, 153, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(236, 72, 153, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: #94a3b8;
+        }
+
+        /* Section */
+        section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin-bottom: 3rem;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(236, 72, 153, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            color: #cbd5e1;
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #ec4899;
+            font-weight: bold;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: rgba(236, 72, 153, 0.1);
+        }
+
+        th, td {
+            padding: 1.25rem;
+            text-align: left;
+        }
+
+        th {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        td {
+            color: #cbd5e1;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .check {
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .cross {
+            color: #ef4444;
+        }
+
+        /* Provider Grid */
+        .provider-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .provider-badge {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .provider-badge:hover {
+            border-color: rgba(236, 72, 153, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .provider-name {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+
+        .provider-type {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .free {
+            color: #10b981;
+        }
+
+        .paid {
+            color: #fbbf24;
+        }
+
+        .local {
+            color: #3b82f6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(59, 130, 246, 0.1) 100%);
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            border-radius: 24px;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        footer a {
+            color: #ec4899;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #8b5cf6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-title h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+
+            .stats-grid,
+            .feature-grid,
+            .provider-grid {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="container">
+        <div class="back-link">
+            <a href="../index.html">← Back to Aethyrion</a>
+        </div>
+
+        <div class="hero">
+            <div class="hero-header">
+                <div class="hero-icon">✨</div>
+                <div class="hero-title">
+                    <h1>Nova</h1>
+                    <p class="hero-tagline">Your AI Coding Partner - Hundreds of Models, Zero Limits</p>
+                </div>
+            </div>
+
+            <div class="status-badge">⚡ ALPHA TESTING - Public Release Coming Soon</div>
+
+            <p class="hero-description">
+                Nova is a production-ready AI coding assistant that combines the best of Cursor, Aider, and GitHub Copilot - 
+                but completely free and open source. With 228+ AI models, autonomous agent mode, intelligent prompt caching, 
+                and beautiful UI, Nova transforms how you code.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="https://github.com/AethyrionAI/Nova" class="btn btn-primary" target="_blank">
+                    View on GitHub →
+                </a>
+                <a href="#features" class="btn btn-secondary">
+                    Explore Features
+                </a>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">228+</div>
+                    <div class="stat-label">AI Models Supported</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">81%</div>
+                    <div class="stat-label">Cost Savings on Claude</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">260+</div>
+                    <div class="stat-label">Tests Passing</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">FREE</div>
+                    <div class="stat-label">Forever & Open Source</div>
+                </div>
+            </div>
+        </div>
+
+        <section id="features">
+            <h2 class="section-title">Flagship Features</h2>
+            <p class="section-subtitle">Everything you need in an AI coding assistant, without the $20-100/month price tag.</p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>228+ AI Models</h3>
+                    <p>Access every major AI provider from one interface:</p>
+                    <ul class="feature-list">
+                        <li>6 Free Providers (Groq, Cerebras, Gemini, etc.)</li>
+                        <li>3 Premium Providers (Claude, GPT-4, Kimi)</li>
+                        <li>3 Local Providers (Ollama, LM Studio, llama.cpp)</li>
+                        <li>30,000+ free requests/day before paid APIs</li>
+                        <li>Dynamic model discovery</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎭</div>
+                    <h3>Agent Mode</h3>
+                    <p>Autonomous multi-step execution that actually works:</p>
+                    <ul class="feature-list">
+                        <li>Analyzes entire codebase for context</li>
+                        <li>Generates detailed execution plans</li>
+                        <li>Self-corrects errors automatically</li>
+                        <li>Validates code & security</li>
+                        <li>Automatic rollback on failure</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Massive Cost Savings</h3>
+                    <p>Intelligent prompt caching across 7 providers:</p>
+                    <ul class="feature-list">
+                        <li>Claude: 81% cost reduction ($3.00 → $0.57)</li>
+                        <li>Groq: FREE with 50% auto-caching</li>
+                        <li>OpenAI: 45% cost reduction ($1.50 → $0.82)</li>
+                        <li>Automatic caching on Kimi & Gemini 2.5</li>
+                        <li>Visual indicators show when you're saving</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📁</div>
+                    <h3>Project File Context</h3>
+                    <p>Upload files once, use everywhere:</p>
+                    <ul class="feature-list">
+                        <li>Works with ALL 9 providers universally</li>
+                        <li>Supports 30+ file types (Python, JS, TS, etc.)</li>
+                        <li>Files stay local - never uploaded externally</li>
+                        <li>Beautiful dual-location UI</li>
+                        <li>Privacy-first architecture</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔗</div>
+                    <h3>GitHub Integration</h3>
+                    <p>Work on issues, create PRs automatically:</p>
+                    <ul class="feature-list">
+                        <li>Browse issues directly in Nova</li>
+                        <li>AI analyzes issue context</li>
+                        <li>Auto-creates branches & commits</li>
+                        <li>Generates pull requests</li>
+                        <li>Links PRs to issues automatically</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Beautiful UI</h3>
+                    <p>Claude-inspired interface with modern design:</p>
+                    <ul class="feature-list">
+                        <li>Glassmorphism effects throughout</li>
+                        <li>Pink → Purple → Blue gradients</li>
+                        <li>Real-time progress tracking</li>
+                        <li>Smooth animations</li>
+                        <li>Responsive design (mobile/tablet/desktop)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">How It Compares</h2>
+            <p class="section-subtitle">Nova vs. paid alternatives - see why we're different.</p>
+
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Nova</th>
+                            <th>Cursor</th>
+                            <th>GitHub Copilot</th>
+                            <th>Aider</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Price</strong></td>
+                            <td><span class="check">FREE Forever</span></td>
+                            <td>$20/month</td>
+                            <td>$10-19/month</td>
+                            <td>$20/month (Pro)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Multi-Model</strong></td>
+                            <td><span class="check">✓ 228+ models</span></td>
+                            <td>Limited (4-5 models)</td>
+                            <td><span class="cross">✗ GPT only</span></td>
+                            <td>Limited (API-based)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Agent Mode</strong></td>
+                            <td><span class="check">✓ Full autonomous</span></td>
+                            <td>✓ Composer</td>
+                            <td><span class="cross">✗</span></td>
+                            <td>✓ Terminal-based</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Prompt Caching</strong></td>
+                            <td><span class="check">✓ 7 providers</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>GitHub Integration</strong></td>
+                            <td><span class="check">✓ Full integration</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td>✓ Basic</td>
+                            <td><span class="cross">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Local Models</strong></td>
+                            <td><span class="check">✓ 3 providers</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td>✓ Ollama</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Open Source</strong></td>
+                            <td><span class="check">✓ MIT License</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td>✓ Apache 2.0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GUI</strong></td>
+                            <td><span class="check">✓ Beautiful React UI</span></td>
+                            <td>✓ VS Code extension</td>
+                            <td>✓ IDE integration</td>
+                            <td><span class="cross">✗ Terminal only</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">All Supported Providers</h2>
+            <p class="section-subtitle">Choose from 9 providers, 228+ models. Switch anytime, no lock-in.</p>
+
+            <div class="provider-grid">
+                <div class="provider-badge">
+                    <div class="provider-name">Groq</div>
+                    <div class="provider-type free">FREE</div>
+                </div>
+                <div class="provider-badge">
+                    <div class="provider-name">Cerebras</div>
+                    <div class="provider-type free">FREE</div>
+                </div>
+                <div class="provider-badge">
+                    <div class="provider-name">Gemini</div>
+                    <div class="provider-type free">FREE</div>
+                </div>
+                <div class="provider-badge">
+                    <div class="provider-name">OpenRouter</div>
+                    <div class="provider-type free">FREE</div>
+                </div>
+                <div class="provider-badge">
+                    <div class="provider-name">GitHub Models</div>
+                    <div class="provider-type free">FREE</div>
+                </div>
+                <div class="provider-badge">
+                    <div class="provider-name">HuggingFace</div>
+                    <div class="provider-type free">FREE</div>
+                </div>
+                <div class="provider-badge">
+                    <div class="provider-name">Anthropic (Claude)</div>
+                    <div class="provider-type paid">PAID</div>
+                </div>
+                <div class="provider-badge">
+                    <div class="provider-name">OpenAI (GPT)</div>
+                    <div class="provider-type paid">PAID</div>
+                </div>
+                <div class="provider-badge">
+                    <div class="provider-name">Moonshot (Kimi)</div>
+                    <div class="provider-type paid">PAID</div>
+                </div>
+                <div class="provider-badge">
+                    <div class="provider-name">Ollama</div>
+                    <div class="provider-type local">LOCAL</div>
+                </div>
+                <div class="provider-badge">
+                    <div class="provider-name">LM Studio</div>
+                    <div class="provider-type local">LOCAL</div>
+                </div>
+                <div class="provider-badge">
+                    <div class="provider-name">llama.cpp</div>
+                    <div class="provider-type local">LOCAL</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Tech Stack</h2>
+            <p class="section-subtitle">Built with modern, proven technologies.</p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Backend</h3>
+                    <ul class="feature-list">
+                        <li>FastAPI (Python 3.8+)</li>
+                        <li>SQLite for persistence</li>
+                        <li>WebSocket for real-time updates</li>
+                        <li>Universal Provider Layer (UPL)</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Frontend</h3>
+                    <ul class="feature-list">
+                        <li>React 19.2 + TypeScript</li>
+                        <li>Tailwind CSS</li>
+                        <li>Framer Motion animations</li>
+                        <li>Responsive design</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Security</h3>
+                    <ul class="feature-list">
+                        <li>Whitelist-based file access</li>
+                        <li>Environment variable API keys</li>
+                        <li>No eval/exec in generated code</li>
+                        <li>Sandbox execution</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="cta-section">
+            <h2>Ready to Transform Your Coding?</h2>
+            <p>
+                Nova is currently in alpha testing with public release coming soon. 
+                Star the repository to get notified when we launch!
+            </p>
+            <div class="hero-buttons">
+                <a href="https://github.com/AethyrionAI/Nova" class="btn btn-primary" target="_blank">
+                    Star on GitHub ⭐
+                </a>
+                <a href="https://discord.gg/UZPWT8PxDe" class="btn btn-secondary" target="_blank">
+                    Join Discord Community
+                </a>
+            </div>
+        </div>
+
+        <footer>
+            <p>
+                <a href="../index.html">← Back to Aethyrion</a> • 
+                <a href="https://github.com/AethyrionAI/Nova" target="_blank">GitHub</a> • 
+                <a href="https://discord.gg/UZPWT8PxDe" target="_blank">Discord</a> • 
+                <a href="https://www.reddit.com/r/aethyrion" target="_blank">Reddit</a>
+            </p>
+            <p style="margin-top: 1rem;">
+                Nova © 2025 • Part of the Aethyrion Ecosystem • MIT License
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

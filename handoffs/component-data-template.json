@@ -1,0 +1,214 @@
+{
+  "components": [
+    {
+      "id": "preset-comparison-base",
+      "title": "Modal Dialog - Base Preset",
+      "prompt": "Create a modal dialog with form fields",
+      "provider": "TODO - check prompt.png",
+      "model": "TODO - check prompt.png",
+      "preset": "Base",
+      "tags": ["Preset Demo", "Modal", "Tailwind"],
+      "folder": "Prompt1-base",
+      "screenshots": {
+        "preview": "preview.png",
+        "clicked": "preview-clicked.png",
+        "prompt": "prompt.png"
+      },
+      "features": ["Simple Tailwind button", "Clean modal styling"],
+      "errorFixed": false
+    },
+    {
+      "id": "preset-comparison-shadcn",
+      "title": "Modal Dialog - shadcn/ui Preset",
+      "prompt": "Create a modal dialog with form fields",
+      "provider": "TODO - check prompt.png",
+      "model": "TODO - check prompt.png",
+      "preset": "shadcn/ui",
+      "tags": ["Preset Demo", "Modal", "Radix UI", "Accessibility"],
+      "folder": "prompt1-shadcn",
+      "screenshots": {
+        "preview": "preview.png",
+        "clicked": "preview-clicked.png",
+        "clickedBackground": "preview-clicked-addbackground.png",
+        "prompt": "prompt.png"
+      },
+      "features": ["Radix Dialog component", "Proper accessibility", "Beautiful styling"],
+      "errorFixed": false
+    },
+    {
+      "id": "dashboard-layout",
+      "title": "Dashboard with Sidebar",
+      "prompt": "Build a dashboard with sidebar navigation, top bar, and 4 stat cards showing revenue, users, orders, and growth",
+      "provider": "TODO - check Prompt.png",
+      "model": "TODO - check Prompt.png",
+      "preset": "TODO - likely Base",
+      "tags": ["Layout", "Multi-component", "Dashboard", "Icons"],
+      "folder": "Prompt2",
+      "screenshots": {
+        "preview": "preview.png",
+        "prompt": "Prompt.png"
+      },
+      "components": ["Sidebar.tsx", "TopBar.tsx", "StatCard.tsx"],
+      "features": ["lucide-react icons", "Multi-component generation", "Responsive layout"],
+      "errorFixed": false
+    },
+    {
+      "id": "prompt3",
+      "title": "TODO - check screenshots to identify",
+      "prompt": "TODO - extract from Prompt.png",
+      "provider": "TODO",
+      "model": "TODO",
+      "preset": "TODO",
+      "tags": ["TODO"],
+      "folder": "Prompt3",
+      "screenshots": {
+        "preview": "Preview.png",
+        "prompt": "Prompt.png"
+      },
+      "features": [],
+      "errorFixed": false
+    },
+    {
+      "id": "revenue-chart",
+      "title": "Revenue Chart Card",
+      "prompt": "Make a revenue chart card with a line graph showing monthly data and a percentage change indicator",
+      "provider": "TODO - check prompt.png",
+      "model": "TODO",
+      "preset": "TODO - likely Base",
+      "tags": ["Charts", "Data Viz", "recharts", "TypeScript"],
+      "folder": "Prompt4",
+      "screenshots": {
+        "preview": "preview.png",
+        "prompt": "prompt.png"
+      },
+      "components": ["RevenueChartCard.tsx"],
+      "features": [
+        "recharts integration",
+        "Responsive chart",
+        "Percentage calculations",
+        "TypeScript interfaces",
+        "lucide-react icons"
+      ],
+      "errorFixed": false
+    },
+    {
+      "id": "contact-form",
+      "title": "Contact Form with Validation",
+      "prompt": "Build a contact form with name, email, message, and submit - include validation with error states",
+      "provider": "TODO - check prompt.png",
+      "model": "TODO",
+      "preset": "TODO",
+      "tags": ["Forms", "Validation", "Error States"],
+      "folder": "Prompt5",
+      "screenshots": {
+        "preview": "preview.png",
+        "prompt": "prompt.png"
+      },
+      "components": ["ContactForm.tsx"],
+      "features": [
+        "Form validation",
+        "Error state styling",
+        "Email regex validation",
+        "State management"
+      ],
+      "errorFixed": false
+    },
+    {
+      "id": "prompt6-error-demo",
+      "title": "TODO - AI Error Fixing Demo #1",
+      "prompt": "TODO - extract from prompt.png",
+      "provider": "TODO",
+      "model": "TODO",
+      "preset": "TODO",
+      "tags": ["AI Error Fixing", "TODO"],
+      "folder": "Prompt6",
+      "screenshots": {
+        "preview": "preview2.png",
+        "errorPreview": "preview1-errorfix.png",
+        "inProgress": "inprogress.png",
+        "prompt": "prompt.png"
+      },
+      "features": ["AI automatic error fixing"],
+      "errorFixed": true,
+      "errorFixingNote": "Component had an error, AI fixed it automatically"
+    },
+    {
+      "id": "hero-section-error-demo",
+      "title": "Hero Section - AI Error Fixing Demo #2",
+      "prompt": "Design a hero section with gradient background, headline, subheadline, CTA button, and floating product screenshot",
+      "provider": "TODO - check Prompt.png",
+      "model": "TODO",
+      "preset": "TODO",
+      "tags": ["AI Error Fixing", "Hero", "Landing Page", "Gradients"],
+      "folder": "Prompt7",
+      "screenshots": {
+        "preview": "preview2-fixed.png",
+        "errorPreview": "preview1-error.png",
+        "inProgress": "progress.png",
+        "prompt": "Prompt.png"
+      },
+      "components": ["HeroSection.tsx", "Button.tsx", "cn.tsx (utility)"],
+      "features": [
+        "Gradient backgrounds",
+        "AI automatic error fixing",
+        "Custom utility functions"
+      ],
+      "errorFixed": true,
+      "errorFixingNote": "Had missing import, AI fixed automatically"
+    },
+    {
+      "id": "prompt8",
+      "title": "TODO - check screenshots to identify",
+      "prompt": "TODO - extract from prompt.png",
+      "provider": "TODO",
+      "model": "TODO",
+      "preset": "TODO",
+      "tags": ["TODO"],
+      "folder": "Prompt8",
+      "screenshots": {
+        "preview": "preview.png",
+        "prompt": "prompt.png"
+      },
+      "features": [],
+      "errorFixed": false
+    },
+    {
+      "id": "prompt9",
+      "title": "TODO - check screenshots to identify",
+      "prompt": "TODO - extract from prompt.png",
+      "provider": "TODO",
+      "model": "TODO",
+      "preset": "TODO",
+      "tags": ["TODO"],
+      "folder": "Prompt9",
+      "screenshots": {
+        "preview": "preview.png",
+        "prompt": "prompt.png"
+      },
+      "features": [],
+      "errorFixed": false
+    },
+    {
+      "id": "user-management-table",
+      "title": "User Management Table",
+      "prompt": "Build a user management table with sortable columns (Name, Email, Role, Status) and action buttons",
+      "provider": "TODO - check prompt.png",
+      "model": "TODO",
+      "preset": "TODO",
+      "tags": ["Tables", "Sorting", "Interactive", "State Management"],
+      "folder": "Prompt10",
+      "screenshots": {
+        "preview": "preview.png",
+        "prompt": "prompt.png"
+      },
+      "features": [
+        "Sortable columns",
+        "Interactive status toggles",
+        "Delete functionality",
+        "Complex state management",
+        "lucide-react icons"
+      ],
+      "errorFixed": false
+    }
+  ]
+}
