@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aethyrion - Free Developer Tools for Everyone</title>
+    <meta name="description" content="Professional-grade development tools that cost $20-100/month? Now free, forever. Nova AI coding assistant, Helix component generator, and more.">
     <style>
         * {
             margin: 0;
@@ -27,8 +28,8 @@
             width: 100%;
             height: 100%;
             background-image: 
-                linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+                linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
             background-size: 50px 50px;
             z-index: 0;
             animation: gridMove 20s linear infinite;
@@ -43,43 +44,43 @@
         .orb {
             position: fixed;
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-            animation: float 20s ease-in-out infinite;
+            filter: blur(100px);
+            opacity: 0.25;
+            animation: float 25s ease-in-out infinite;
             z-index: 1;
         }
 
         .orb-1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, #6366f1 0%, transparent 70%);
-            top: -200px;
-            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #ec4899 0%, transparent 70%);
+            top: -250px;
+            right: -250px;
             animation-delay: 0s;
         }
 
         .orb-2 {
-            width: 400px;
-            height: 400px;
+            width: 500px;
+            height: 500px;
             background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
-            bottom: -150px;
-            left: -150px;
-            animation-delay: 5s;
+            bottom: -200px;
+            left: -200px;
+            animation-delay: 7s;
         }
 
         .orb-3 {
-            width: 350px;
-            height: 350px;
+            width: 450px;
+            height: 450px;
             background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
             top: 50%;
             left: 50%;
-            animation-delay: 10s;
+            animation-delay: 14s;
         }
 
         @keyframes float {
             0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
+            33% { transform: translate(40px, -40px) scale(1.15); }
+            66% { transform: translate(-30px, 30px) scale(0.85); }
         }
 
         .container {
@@ -102,7 +103,7 @@
         .logo {
             font-size: 1.75rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -128,12 +129,12 @@
 
         /* Hero Section */
         .hero {
-            padding: 8rem 0 6rem;
+            padding: 6rem 0 4rem;
             text-align: center;
         }
 
         .hero h1 {
-            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 1.5rem;
@@ -145,17 +146,17 @@
         }
 
         .hero .gradient-text {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .hero p {
-            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
             color: #94a3b8;
             max-width: 700px;
-            margin: 0 auto 3rem;
+            margin: 0 auto 2.5rem;
             animation: fadeInUp 0.8s ease-out 0.2s both;
         }
 
@@ -165,6 +166,135 @@
             justify-content: center;
             flex-wrap: wrap;
             animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        /* Nova Spotlight Card */
+        .nova-spotlight {
+            margin: 4rem auto 0;
+            max-width: 900px;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(59, 130, 246, 0.1) 100%);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 24px;
+            padding: 3rem;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .nova-spotlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6);
+        }
+
+        .nova-spotlight::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .nova-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .nova-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .nova-icon {
+            font-size: 4rem;
+            filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.5));
+        }
+
+        .nova-title-group h2 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.25rem;
+        }
+
+        .nova-tagline {
+            font-size: 1.3rem;
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+
+        .flagship-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            background: rgba(236, 72, 153, 0.2);
+            color: #ec4899;
+            border: 1px solid rgba(236, 72, 153, 0.4);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .nova-description {
+            font-size: 1.15rem;
+            color: #cbd5e1;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .nova-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .nova-feature {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .nova-feature-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.25rem;
+        }
+
+        .nova-feature-label {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .nova-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .btn {
@@ -181,32 +311,32 @@
             gap: 0.5rem;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        .btn-nova {
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
             color: #fff;
-            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 40px rgba(236, 72, 153, 0.3);
         }
 
-        .btn-primary:hover {
+        .btn-nova:hover {
             transform: translateY(-2px);
-            box-shadow: 0 15px 50px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 15px 50px rgba(236, 72, 153, 0.5);
         }
 
         .btn-secondary {
             background: rgba(255, 255, 255, 0.05);
             color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
         }
 
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
-        /* Tools Grid */
+        /* Tools Section */
         .tools {
-            padding: 4rem 0 6rem;
+            padding: 6rem 0;
         }
 
         .section-title {
@@ -227,6 +357,8 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .tool-card {
@@ -247,9 +379,16 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, #6366f1, #8b5cf6);
             transform: scaleX(0);
             transition: transform 0.4s;
+        }
+
+        .tool-card.helix::before {
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+        }
+
+        .tool-card.prism::before {
+            background: linear-gradient(90deg, #8b5cf6, #a855f7);
         }
 
         .tool-card:hover::before {
@@ -257,9 +396,17 @@
         }
 
         .tool-card:hover {
-            border-color: rgba(99, 102, 241, 0.3);
             transform: translateY(-5px);
-            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15);
+        }
+
+        .tool-card.helix:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.15);
+        }
+
+        .tool-card.prism:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: 0 20px 60px rgba(139, 92, 246, 0.15);
         }
 
         .tool-icon {
@@ -296,12 +443,6 @@
             background: rgba(139, 92, 246, 0.2);
             color: #8b5cf6;
             border: 1px solid rgba(139, 92, 246, 0.3);
-        }
-
-        .status-coming {
-            background: rgba(148, 163, 184, 0.2);
-            color: #94a3b8;
-            border: 1px solid rgba(148, 163, 184, 0.3);
         }
 
         .tool-card p {
@@ -355,7 +496,7 @@
         .stat-value {
             font-size: 3rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -374,8 +515,8 @@
         }
 
         .cta-content {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(59, 130, 246, 0.1) 100%);
+            border: 1px solid rgba(236, 72, 153, 0.2);
             border-radius: 24px;
             padding: 4rem 2rem;
             backdrop-filter: blur(10px);
@@ -390,6 +531,9 @@
             color: #94a3b8;
             font-size: 1.2rem;
             margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* Footer */
@@ -401,8 +545,9 @@
         }
 
         footer a {
-            color: #6366f1;
+            color: #ec4899;
             text-decoration: none;
+            transition: color 0.3s;
         }
 
         footer a:hover {
@@ -427,6 +572,27 @@
                 font-size: 2.5rem;
             }
 
+            .nova-spotlight {
+                padding: 2rem;
+            }
+
+            .nova-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nova-title-group h2 {
+                font-size: 2rem;
+            }
+
+            .nova-tagline {
+                font-size: 1.1rem;
+            }
+
+            .nova-features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
             .tools-grid {
                 grid-template-columns: 1fr;
             }
@@ -435,8 +601,13 @@
                 gap: 1rem;
             }
 
-            .hero-buttons {
+            .hero-buttons, .nova-buttons {
                 flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -454,6 +625,7 @@
                 <a href="#tools">Tools</a>
                 <a href="#about">About</a>
                 <a href="https://github.com/AethyrionAI" target="_blank">GitHub</a>
+                <a href="https://discord.gg/UZPWT8PxDe" target="_blank">Discord</a>
             </div>
         </nav>
 
@@ -466,23 +638,58 @@
                 Professional-grade development tools that cost $20-100/month? Now free, forever. 
                 No paywalls. No limits. Just pure developer productivity.
             </p>
-            <div class="hero-buttons">
-                <a href="#tools" class="btn btn-primary">
-                    Explore Tools →
-                </a>
-                <a href="https://github.com/AethyrionAI" class="btn btn-secondary">
-                    View on GitHub
-                </a>
+
+            <!-- Nova Spotlight -->
+            <div class="nova-spotlight">
+                <div class="nova-content">
+                    <div class="nova-header" style="flex-direction: column; align-items: center; text-align: center;">
+                        <div class="flagship-badge">★ FLAGSHIP TOOL</div>
+                        <div class="nova-title-group">
+                            <h2>Nova</h2>
+                            <p class="nova-tagline">Your AI Coding Partner - Hundreds of Models, Zero Limits</p>
+                        </div>
+                    </div>
+                    <p class="nova-description">
+                        The free alternative to Cursor, Aider, and GitHub Copilot. Production-ready AI coding assistant 
+                        with 228+ models, autonomous agent mode, and massive cost savings through intelligent caching.
+                    </p>
+                    <div class="nova-features">
+                        <div class="nova-feature">
+                            <div class="nova-feature-value">228+</div>
+                            <div class="nova-feature-label">AI Models</div>
+                        </div>
+                        <div class="nova-feature">
+                            <div class="nova-feature-value">81%</div>
+                            <div class="nova-feature-label">Cost Savings</div>
+                        </div>
+                        <div class="nova-feature">
+                            <div class="nova-feature-value">260+</div>
+                            <div class="nova-feature-label">Tests Passing</div>
+                        </div>
+                        <div class="nova-feature">
+                            <div class="nova-feature-value">FREE</div>
+                            <div class="nova-feature-label">Forever</div>
+                        </div>
+                    </div>
+                    <div class="nova-buttons">
+                        <a href="tools/nova.html" class="btn btn-nova">
+                            Discover Nova →
+                        </a>
+                        <a href="https://github.com/AethyrionAI/Nova" class="btn btn-secondary" target="_blank">
+                            View on GitHub
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section id="tools" class="tools">
-            <h2 class="section-title">Our Ecosystem</h2>
+            <h2 class="section-title">Complete Ecosystem</h2>
             <p class="section-subtitle">Built by developers, for developers. Open source and always free.</p>
 
             <div class="tools-grid">
                 <!-- Helix -->
-                <div class="tool-card">
+                <div class="tool-card helix">
                     <div class="tool-icon">🌀</div>
                     <h3>Helix</h3>
                     <span class="tool-status status-live">✓ LIVE</span>
@@ -498,19 +705,19 @@
                         <li>Local AI support (Ollama, LM Studio)</li>
                     </ul>
                     <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                        <a href="tools/helix.html" class="btn btn-primary" style="flex: 1; justify-content: center;">Try Helix →</a>
-                        <a href="https://helix.aethyrion.org" class="btn btn-secondary" style="flex: 1; justify-content: center;">See Examples</a>
+                        <a href="tools/helix.html" class="btn btn-secondary" style="flex: 1; justify-content: center;">Learn More →</a>
+                        <a href="https://helix.aethyrion.org" class="btn btn-secondary" style="flex: 1; justify-content: center;" target="_blank">See Examples</a>
                     </div>
                 </div>
 
                 <!-- Prism -->
-                <div class="tool-card">
+                <div class="tool-card prism">
                     <div class="tool-icon">🔷</div>
                     <h3>Prism</h3>
-                    <span class="tool-status status-beta">β BETA</span>
+                    <span class="tool-status status-beta">β CLOSED BETA</span>
                     <p>
                         ServiceNow development assistant powered by AI. Generate scripts, workflows, and documentation 
-                        with 23 production-tested templates achieving 9.1/10 quality.
+                        with 23 production-tested templates achieving 9.1/10 quality. Public release Q2 2026.
                     </p>
                     <ul class="tool-features">
                         <li>AI-powered ServiceNow content generation</li>
@@ -520,63 +727,6 @@
                         <li>Built-in validation system</li>
                     </ul>
                     <a href="tools/prism.html" class="btn btn-secondary" style="width: 100%; justify-content: center;">Learn More →</a>
-                </div>
-
-                <!-- Observatory (Coming Soon) -->
-                <div class="tool-card">
-                    <div class="tool-icon">📊</div>
-                    <h3>Observatory</h3>
-                    <span class="tool-status status-coming">COMING SOON</span>
-                    <p>
-                        Self-hosted observability platform. Free alternative to Datadog ($69-99/host/mo) and New Relic. 
-                        APM, error tracking, logs, metrics, and AI-powered anomaly detection.
-                    </p>
-                    <ul class="tool-features">
-                        <li>Application performance monitoring</li>
-                        <li>Real-time logs, metrics & traces</li>
-                        <li>AI root cause analysis</li>
-                        <li>Beautiful dashboards</li>
-                        <li>OpenTelemetry native</li>
-                    </ul>
-                    <a href="tools/observatory.html" class="btn btn-secondary" style="width: 100%; justify-content: center;">Learn More →</a>
-                </div>
-
-                <!-- Conduit (Coming Soon) -->
-                <div class="tool-card">
-                    <div class="tool-icon">🔌</div>
-                    <h3>Conduit</h3>
-                    <span class="tool-status status-coming">COMING SOON</span>
-                    <p>
-                        AI-powered API testing & documentation. Free alternative to Postman ($49/user/mo). 
-                        Generate tests, mock servers, and beautiful docs automatically.
-                    </p>
-                    <ul class="tool-features">
-                        <li>AI-generated test cases & docs</li>
-                        <li>Interactive API testing</li>
-                        <li>Mock servers with realistic data</li>
-                        <li>OpenAPI/Swagger import</li>
-                        <li>AI chat for API exploration</li>
-                    </ul>
-                    <a href="tools/conduit.html" class="btn btn-secondary" style="width: 100%; justify-content: center;">Learn More →</a>
-                </div>
-
-                <!-- Spectra (In Development) -->
-                <div class="tool-card">
-                    <div class="tool-icon">🌈</div>
-                    <h3>Spectra</h3>
-                    <span class="tool-status status-coming">IN DEVELOPMENT</span>
-                    <p>
-                        AI-powered code review agent. Free alternative to CodeRabbit ($12-50/user/mo) and Codacy. 
-                        Catch bugs, security issues, and code smells. 100% local-first.
-                    </p>
-                    <ul class="tool-features">
-                        <li>AI-powered bug & security detection</li>
-                        <li>Performance analysis</li>
-                        <li>Git integration for PR reviews</li>
-                        <li>100% local - code stays on your machine</li>
-                        <li>Multi-language support</li>
-                    </ul>
-                    <a href="tools/spectra.html" class="btn btn-secondary" style="width: 100%; justify-content: center;">Learn More →</a>
                 </div>
             </div>
         </section>
@@ -588,12 +738,12 @@
                     <div class="stat-label">Free Forever</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value">5</div>
-                    <div class="stat-label">Tools in Ecosystem</div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Tools & Growing</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value">∞</div>
-                    <div class="stat-label">No Limits</div>
+                    <div class="stat-value">228+</div>
+                    <div class="stat-label">AI Models</div>
                 </div>
                 <div class="stat">
                     <div class="stat-value">MIT</div>
@@ -610,7 +760,7 @@
                     shouldn't cost $100/month. Every tool in the Aethyrion ecosystem is 100% free, 
                     open source, and built to replace paid alternatives.
                 </p>
-                <a href="https://github.com/AethyrionAI" class="btn btn-primary">
+                <a href="https://github.com/AethyrionAI" class="btn btn-nova" target="_blank">
                     Star on GitHub ⭐
                 </a>
             </div>
@@ -620,7 +770,6 @@
             <p>
                 Built with ❤️ by developers, for developers.<br>
                 <a href="https://github.com/AethyrionAI">GitHub</a> • 
-                <a href="#">Documentation</a> • 
                 <a href="https://discord.gg/UZPWT8PxDe">Discord</a> • 
                 <a href="https://www.reddit.com/r/aethyrion">Reddit</a>
             </p>
