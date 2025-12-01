@@ -1,5 +1,28 @@
 # Aethyrion Website Update Log
 
+## December 1, 2025 - Nova Alpha Launch! 🚀
+
+### Nova Goes Live!
+**The moment we've been building toward - Nova is now publicly available!**
+
+**Changes:**
+- ✅ Updated Nova status badge from "ALPHA COMING SOON" → "ALPHA - NOW LIVE" (index.html)
+- ✅ Updated Nova page status from "ALPHA TESTING - Public Release Coming Soon" → "ALPHA RELEASE - NOW LIVE" (tools/nova.html)
+- ✅ Changed status badge colors from yellow/blue → green (indicating live status)
+- ✅ Updated CTA section messaging to invite users to try Nova now
+- ✅ Added announcement banner at top of homepage with gradient glow animation
+
+**Files Modified:**
+- index.html - Status badge text and color
+- tools/nova.html - Status badge text, color, and CTA section
+
+**Launch Details:**
+- Launch Date: December 1, 2025 at 1:00 PM Central Time
+- Status: Alpha Release (public testing)
+- Repository: https://github.com/AethyrionAI/Nova
+
+---
+
 ## November 22, 2025 - Nova Flagship Launch 🌟
 
 ### Major Website Revamp
@@ -71,4 +94,4 @@
 
 **Current Status:** Production-ready, deployed to aethyrion.org  
 **Current Quarter:** Q4 2025  
-**Last Updated:** November 22, 2025
+**Last Updated:** December 1, 2025
